@@ -17,7 +17,7 @@ var database;
 app.listen(5030,()=>{
     Mongoclient.connect(CONNECTION_STRING,(error,client)=>{
         database = client.db(DATABASENAME)
-        console.log("Port:5030 Connected Successful");
+        console.log("Port:5030 Connection Successful");
     })
 })
 
