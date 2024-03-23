@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
 import { apiGetter } from '../api/get.js';
 //import { apiPoster } from '../api/posts.js';
@@ -14,24 +15,28 @@ interface Element{
 
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [validLogin, setValidLogin] = useState(-1);
 
   const processInput = () => {
-    // if (username === "admin" && password === "password") { // temporary, for testing
-    //   setValidLogin(1);
-    // } else {
-    //   setValidLogin(0);
-    // }
-    // setUsername("");
-    // setPassword("");
+      let found = false;
         apiGetter()
         .then(data => {
             data.forEach((element: Element)=>{
-                console.log(element.username);
+              console.log(element.username);
+              if(username  === element.username && SHA1(password).toString() === element.password){
+                found = true;
+              }
             })
             console.log(data);
+            if(found){
+              setValidLogin(1);
+              navigate('..');
+            }else{
+              setValidLogin(0);
+            }
         })
         .catch(error => {
             console.error('Error getting data:', error);
@@ -54,6 +59,7 @@ export default function LoginPage() {
           </button>
         </div>
       )}
+
       <label>
         <input
           className="textbox"
