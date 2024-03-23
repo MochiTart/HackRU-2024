@@ -37,3 +37,12 @@ app.post('/postInfo',(request, response)=>{
     }
     database.collection('userlogincollection').insertOne(newUser);
 });
+
+app.put('/putInfo',(request, response)=>{
+    const filter = { username: request.body.username }
+    const newUser = {
+        username:request.body.username,
+        password:request.body.password
+    }
+    database.collection('userlogincollection').replaceOne(filter, newUser);
+});
