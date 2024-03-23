@@ -37,3 +37,8 @@ app.post('/postInfo',(request, response)=>{
     }
     database.collection('userlogincollection').insertOne(newUser);
 });
+
+app.delete('/deleteInfo',(request, response)=>{
+    const filter = { username: request.body.username}
+    database.collection('userlogincollection').deleteOne(filter);
+});
